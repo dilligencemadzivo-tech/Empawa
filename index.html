@@ -1,0 +1,4729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMPAWA | Business Consultancy CRM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #10b981;
+            --dark-green: #059669;
+            --light-green: #34d399;
+            --accent-green: #a7f3d0;
+            --primary-black: #000000;
+            --dark-gray: #111827;
+            --medium-gray: #1f2937;
+            --light-gray: #374151;
+            --text-light: #f9fafb;
+            --text-muted: #9ca3af;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            --border-radius: 8px;
+            --success-green: #10b981;
+            --warning-yellow: #f59e0b;
+            --danger-red: #ef4444;
+            --info-blue: #3b82f6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary-black);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Login Screen Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-black), var(--dark-gray));
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+        }
+        
+        .login-box {
+            background-color: var(--dark-gray);
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--medium-gray);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-logo h1 {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .login-logo p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+        
+        .login-form input,
+        .login-form select {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--medium-gray);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .login-form input:focus,
+        .login-form select:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        .login-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .login-btn:hover::after {
+            left: 100%;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--medium-gray);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .role-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .role-director {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--danger-red);
+        }
+        
+        .role-consultant {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--primary-green);
+        }
+        
+        .role-sales {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--info-blue);
+        }
+        
+        .role-support {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--warning-yellow);
+        }
+        
+        /* App Container (Initially Hidden) */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: var(--dark-gray);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+            z-index: 100;
+            position: relative;
+        }
+        
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-green), var(--light-green));
+        }
+        
+        .logo {
+            padding: 0 20px 20px;
+            border-bottom: 2px solid var(--primary-green);
+            margin-bottom: 20px;
+        }
+        
+        .logo h1 {
+            color: var(--primary-green);
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+        }
+        
+        .logo h1 i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .nav-menu {
+            flex: 1;
+            padding: 0 15px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 8px;
+            border-radius: var(--border-radius);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--medium-gray);
+            color: var(--text-light);
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.2), transparent);
+            color: var(--primary-green);
+            border-left: 4px solid var(--primary-green);
+        }
+        
+        .nav-item i {
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--danger-red);
+            color: white;
+            font-size: 0.7rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .user-info {
+            padding: 20px;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+        
+        .user-details {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-role {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: var(--primary-black);
+            position: relative;
+        }
+        
+        .main-content::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h2 {
+            color: var(--text-light);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .header h2 i {
+            color: var(--primary-green);
+        }
+        
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header-user-info {
+            text-align: right;
+        }
+        
+        .header-user-name {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        
+        .header-user-role {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .notifications-container {
+            position: relative;
+        }
+        
+        .notifications-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .notifications-btn:hover {
+            background-color: var(--medium-gray);
+            color: var(--primary-green);
+        }
+        
+        .notifications-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-red);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: 1px solid var(--light-gray);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .logout-btn:hover {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-color: var(--danger-red);
+            color: var(--danger-red);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            gap: 8px;
+        }
+        
+        .btn i {
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-green), #059669);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning-yellow), #d97706);
+            color: #1f2937;
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger-red), #dc2626);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(16, 185, 129, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 0.875rem;
+        }
+        
+        /* Dashboard Styles */
+        .dashboard-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: var(--dark-gray);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            border-left: 4px solid var(--primary-green);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .stat-icon i {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+        }
+        
+        .stat-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, var(--primary-green), var(--light-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .stat-trend {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .trend-up {
+            color: var(--success-green);
+        }
+        
+        .trend-down {
+            color: var(--danger-red);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 1100px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background-color: var(--dark-gray);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-green), transparent);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        
+        .card-title i {
+            color: var(--primary-green);
+            margin-right: 10px;
+        }
+        
+        /* Notifications Panel */
+        .notifications-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background-color: var(--dark-gray);
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .notifications-panel.active {
+            right: 0;
+        }
+        
+        .notifications-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--medium-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--primary-black);
+        }
+        
+        .notifications-header h3 {
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+        
+        .notifications-header h3 i {
+            color: var(--primary-green);
+            margin-right: 10px;
+        }
+        
+        .close-notifications {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .close-notifications:hover {
+            color: var(--danger-red);
+        }
+        
+        .notifications-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .notification-item {
+            background-color: var(--medium-gray);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-green);
+            transition: all 0.3s;
+        }
+        
+        .notification-item:hover {
+            transform: translateX(-5px);
+            background-color: var(--light-gray);
+        }
+        
+        .notification-item.unread {
+            border-left-color: var(--danger-red);
+            background-color: rgba(239, 68, 68, 0.05);
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+        
+        .notification-message {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        
+        .notification-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .notification-type {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .type-payment {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--primary-green);
+        }
+        
+        .type-tax {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--info-blue);
+        }
+        
+        .type-deadline {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--warning-yellow);
+        }
+        
+        .type-reminder {
+            background-color: rgba(168, 85, 247, 0.2);
+            color: #a855f7;
+        }
+        
+        /* Client Management */
+        .client-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .detail-label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        .detail-value {
+            color: var(--text-light);
+        }
+        
+        .client-services {
+            margin-top: 20px;
+        }
+        
+        .service-tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--primary-green);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        /* Consultancy Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .service-card {
+            background-color: var(--medium-gray);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .service-card:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .service-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+        
+        .service-description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .service-price {
+            color: var(--primary-green);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        /* Pipeline Styles */
+        .pipeline-container {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            gap: 15px;
+        }
+        
+        .pipeline-stage {
+            min-width: 280px;
+            background-color: var(--medium-gray);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .stage-title {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        
+        .stage-count {
+            background-color: var(--primary-green);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        
+        .client-item {
+            background-color: var(--dark-gray);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 12px;
+            cursor: move;
+            border: 1px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .client-item:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-2px);
+        }
+        
+        .client-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .client-info {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        
+        .client-service {
+            display: inline-block;
+            padding: 3px 10px;
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--primary-green);
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+        
+        /* Table Styles */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--medium-gray);
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th {
+            text-align: left;
+            padding: 15px;
+            background-color: var(--medium-gray);
+            color: var(--text-light);
+            font-weight: 500;
+            border-bottom: 2px solid var(--primary-green);
+        }
+        
+        .data-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .data-table tr:hover {
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--primary-green);
+        }
+        
+        .status-pending {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--warning-yellow);
+        }
+        
+        .status-completed {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--info-blue);
+        }
+        
+        .status-overdue {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--danger-red);
+        }
+        
+        .status-inactive {
+            background-color: rgba(107, 114, 128, 0.2);
+            color: var(--text-muted);
+        }
+        
+        /* Form Styles */
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: var(--medium-gray);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+        
+        /* Chart Styles */
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+        }
+        
+        .chart-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background-color: var(--medium-gray);
+            border-radius: var(--border-radius);
+            color: var(--text-muted);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--medium-gray);
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            color: var(--text-muted);
+        }
+        
+        .tab:hover {
+            color: var(--primary-green);
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--primary-green);
+            color: var(--primary-green);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: var(--dark-gray);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--primary-green);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .modal-close:hover {
+            color: var(--danger-red);
+        }
+        
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--medium-gray);
+        }
+        
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 10px 0;
+            }
+            
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+                padding: 0 10px;
+            }
+            
+            .nav-item {
+                flex-shrink: 0;
+                margin-bottom: 0;
+                margin-right: 10px;
+            }
+            
+            .dashboard-overview {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .header-user {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .login-box {
+                padding: 30px 20px;
+            }
+            
+            .notifications-panel {
+                width: 100%;
+                right: -100%;
+            }
+        }
+        
+        /* Drag and drop styles */
+        .drag-over {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 2px dashed var(--primary-green);
+        }
+        
+        .dragging {
+            opacity: 0.5;
+            transform: rotate(2deg);
+        }
+        
+        /* Section visibility */
+        .section {
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Role-based restrictions */
+        .restricted {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        .restricted-message {
+            position: relative;
+        }
+        
+        .restricted-message::after {
+            content: "Permission Required";
+            position: absolute;
+            top: -25px;
+            left: 0;
+            background-color: rgba(239, 68, 68, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .restricted-message:hover::after {
+            opacity: 1;
+        }
+        
+        /* Payment Status */
+        .payment-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .payment-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .payment-pending .payment-dot {
+            background-color: var(--warning-yellow);
+        }
+        
+        .payment-partial .payment-dot {
+            background-color: #f97316;
+        }
+        
+        .payment-completed .payment-dot {
+            background-color: var(--success-green);
+        }
+        
+        .payment-overdue .payment-dot {
+            background-color: var(--danger-red);
+        }
+        
+        /* Calendar View */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+        }
+        
+        .calendar-day {
+            background-color: var(--medium-gray);
+            padding: 10px;
+            border-radius: var(--border-radius);
+            min-height: 100px;
+            position: relative;
+        }
+        
+        .calendar-day-header {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-light);
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .calendar-event {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--primary-green);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 3px;
+            cursor: pointer;
+        }
+        
+        .calendar-event:hover {
+            background-color: rgba(16, 185, 129, 0.3);
+        }
+        
+        .calendar-event.payment {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--danger-red);
+        }
+        
+        .calendar-event.tax {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--info-blue);
+        }
+        
+        /* Tax Clearance Status */
+        .tax-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tax-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        .tax-clear {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--primary-green);
+        }
+        
+        .tax-pending {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--warning-yellow);
+        }
+        
+        .tax-overdue {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--danger-red);
+        }
+        
+        /* Project Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin-top: 20px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary-green), transparent);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -27px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            border: 3px solid var(--dark-gray);
+        }
+        
+        .timeline-content {
+            background-color: var(--medium-gray);
+            padding: 15px;
+            border-radius: var(--border-radius);
+        }
+        
+        .timeline-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .quick-action {
+            background-color: var(--dark-gray);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .quick-action:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-5px);
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+        
+        .quick-action i {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+        
+        .quick-action span {
+            display: block;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+        
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10000;
+            max-width: 400px;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid var(--primary-green);
+        }
+        
+        .toast.error {
+            border-left-color: var(--danger-red);
+        }
+        
+        .toast.warning {
+            border-left-color: var(--warning-yellow);
+        }
+        
+        .toast.success {
+            border-left-color: var(--success-green);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .toast i {
+            font-size: 1.2rem;
+        }
+        
+        .toast.success i {
+            color: var(--success-green);
+        }
+        
+        .toast.error i {
+            color: var(--danger-red);
+        }
+        
+        .toast.warning i {
+            color: var(--warning-yellow);
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen (Initially Visible) -->
+    <div class="login-container" id="login-container">
+        <div class="login-box">
+            <div class="login-logo">
+                <h1><i class="fas fa-chart-line"></i> EMPAWA</h1>
+                <p>Business Consultancy & Management CRM</p>
+            </div>
+            
+            <form class="login-form" id="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="role">Select User</label>
+                    <select id="role" required>
+                        <option value="">Select your profile</option>
+                        <option value="director01">Grace Bhaureni - Director</option>
+                        <option value="director02">Ernest Murewa - Director</option>
+                        <option value="consultant01">Senior Consultant 1</option>
+                        <option value="consultant02">Senior Consultant 2</option>
+                        <option value="sales01">Sales Executive</option>
+                        <option value="support01">Support Staff</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Access EMPAWA
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <p>© 2024 EMPAWA - Business Growth & Consultancy Solutions</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CRM Application (Initially Hidden) -->
+    <div class="app-container" id="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1><i class="fas fa-chart-line"></i> EMPAWA</h1>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-home"></i> Dashboard
+                    <span class="notification-badge" id="dashboard-notifications">0</span>
+                </div>
+                <div class="nav-item" data-section="clients">
+                    <i class="fas fa-users"></i> Clients
+                </div>
+                <div class="nav-item" data-section="projects">
+                    <i class="fas fa-project-diagram"></i> Projects
+                </div>
+                <div class="nav-item" data-section="consultancy">
+                    <i class="fas fa-handshake"></i> Consultancy Services
+                </div>
+                <div class="nav-item" data-section="payments">
+                    <i class="fas fa-credit-card"></i> Payments & Invoicing
+                </div>
+                <div class="nav-item" data-section="tax">
+                    <i class="fas fa-file-invoice-dollar"></i> Tax & Compliance
+                </div>
+                <div class="nav-item" data-section="documents">
+                    <i class="fas fa-file-contract"></i> Documents
+                </div>
+                <div class="nav-item" data-section="calendar">
+                    <i class="fas fa-calendar-alt"></i> Calendar
+                </div>
+                <div class="nav-item" data-section="reports">
+                    <i class="fas fa-chart-bar"></i> Analytics & Reports
+                </div>
+                <div class="nav-item" data-section="settings">
+                    <i class="fas fa-cog"></i> Settings
+                </div>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">A</div>
+                <div class="user-details">
+                    <div class="user-name">
+                        <span id="sidebar-user-name">Admin User</span>
+                        <span class="role-badge role-director" id="sidebar-user-role">Director</span>
+                    </div>
+                    <div class="user-role" id="sidebar-user-full-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h2 id="page-title"><i class="fas fa-home"></i> Dashboard</h2>
+                <div class="header-actions">
+                    <div class="notifications-container">
+                        <button class="notifications-btn" id="notifications-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notifications-count" id="notifications-count">0</span>
+                        </button>
+                    </div>
+                    <div class="header-user">
+                        <div class="header-user-info">
+                            <div class="header-user-name">
+                                <span id="header-user-name">Admin User</span>
+                                <span class="role-badge role-director" id="header-user-role">Director</span>
+                            </div>
+                            <div class="header-user-role" id="header-user-full-role">Administrator</div>
+                        </div>
+                        <button class="logout-btn" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                    <button class="btn btn-outline" id="quick-task-btn">
+                        <i class="fas fa-plus"></i> Quick Task
+                    </button>
+                    <button class="btn btn-primary" id="add-client-btn">
+                        <i class="fas fa-user-plus"></i> New Client
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Dashboard Section (Default) -->
+            <section id="dashboard-section" class="section active">
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <div class="quick-action" onclick="createQuickTask()">
+                        <i class="fas fa-tasks"></i>
+                        <span>Create Task</span>
+                    </div>
+                    <div class="quick-action" onclick="openAddClientModal()">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Add Client</span>
+                    </div>
+                    <div class="quick-action" onclick="createInvoice()">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Create Invoice</span>
+                    </div>
+                    <div class="quick-action" onclick="scheduleMeeting()">
+                        <i class="fas fa-calendar-plus"></i>
+                        <span>Schedule Meeting</span>
+                    </div>
+                    <div class="quick-action" onclick="generateReport()">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Quick Report</span>
+                    </div>
+                    <div class="quick-action" onclick="checkTaxDeadlines()">
+                        <i class="fas fa-clock"></i>
+                        <span>Check Deadlines</span>
+                    </div>
+                </div>
+                
+                <!-- Dashboard Stats -->
+                <div class="dashboard-overview">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-clients">0</h3>
+                            <p>Active Clients</p>
+                            <div class="stat-trend trend-up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>12%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="active-projects">0</h3>
+                            <p>Active Projects</p>
+                            <div class="stat-trend trend-up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>8%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="monthly-revenue">$0</h3>
+                            <p>Monthly Revenue</p>
+                            <div class="stat-trend trend-up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>15%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pending-tasks">0</h3>
+                            <p>Pending Tasks</p>
+                            <div class="stat-trend trend-down">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>5%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-chart-line"></i> Revenue Overview</h3>
+                            <select id="revenue-period">
+                                <option>Last 30 Days</option>
+                                <option>Last Quarter</option>
+                                <option>Last Year</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder" id="revenue-chart">
+                                <div style="text-align: center;">
+                                    <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                                    <p>Revenue data will appear here</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-exclamation-circle"></i> Urgent Alerts</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Alert Type</th>
+                                        <th>Client</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="urgent-alerts">
+                                    <tr>
+                                        <td colspan="4" style="text-align: center; padding: 40px;">
+                                            <div class="empty-state">
+                                                <i class="fas fa-check-circle"></i>
+                                                <p>No urgent alerts</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-history"></i> Recent Activity</h3>
+                        <button class="btn btn-outline btn-sm" id="view-all-activity">View All</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Activity</th>
+                                    <th>Client</th>
+                                    <th>User</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-activity">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 40px;">
+                                        <div class="empty-state">
+                                            <i class="fas fa-history"></i>
+                                            <p>No recent activity</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Clients Section -->
+            <section id="clients-section" class="section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-users"></i> Client Management</h3>
+                        <div>
+                            <input type="text" id="search-clients" placeholder="Search clients..." style="width: 250px; margin-right: 15px;">
+                            <button class="btn btn-primary" id="filter-clients">Filter</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>Contact</th>
+                                    <th>Services</th>
+                                    <th>Status</th>
+                                    <th>Last Activity</th>
+                                    <th>Tax Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="all-clients">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 40px;">
+                                        <div class="empty-state">
+                                            <i class="fas fa-users"></i>
+                                            <h3>No Clients Yet</h3>
+                                            <p>Add your first client to start managing relationships</p>
+                                            <button class="btn btn-primary" id="add-client-from-empty" style="margin-top: 20px;">
+                                                <i class="fas fa-plus"></i> Add First Client
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Projects Section -->
+            <section id="projects-section" class="section">
+                <div class="dashboard-overview" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-projects">0</h3>
+                            <p>Total Projects</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="ongoing-projects">0</h3>
+                            <p>Ongoing</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="completed-projects">0</h3>
+                            <p>Completed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="delayed-projects">0</h3>
+                            <p>Delayed</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-tasks"></i> Project Pipeline</h3>
+                        <div>
+                            <button class="btn btn-outline" id="reset-pipeline-btn">Reset Pipeline</button>
+                            <button class="btn btn-primary" id="add-project-btn">Add Project</button>
+                        </div>
+                    </div>
+                    <div class="pipeline-container" id="pipeline-container">
+                        <!-- Pipeline stages will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-list"></i> All Projects</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Project Name</th>
+                                    <th>Client</th>
+                                    <th>Start Date</th>
+                                    <th>Deadline</th>
+                                    <th>Budget</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="projects-table">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 40px;">
+                                        <div class="empty-state">
+                                            <i class="fas fa-project-diagram"></i>
+                                            <h3>No Projects Yet</h3>
+                                            <p>Add your first project to start tracking progress</p>
+                                            <button class="btn btn-primary" id="add-project-from-empty" style="margin-top: 20px;">
+                                                <i class="fas fa-plus"></i> Add First Project
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Consultancy Services Section -->
+            <section id="consultancy-section" class="section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-handshake"></i> Consultancy Services</h3>
+                        <button class="btn btn-primary" id="add-service-btn">Add Service</button>
+                    </div>
+                    
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="service-title">Business Strategy</div>
+                            <div class="service-description">Develop comprehensive business growth strategies and market positioning.</div>
+                            <div class="service-price">$5,000+</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <div class="service-title">Company Registration</div>
+                            <div class="service-description">Full company registration and legal compliance services.</div>
+                            <div class="service-price">$1,500+</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                            <div class="service-title">Tax Advisory</div>
+                            <div class="service-description">Tax planning, compliance, and optimization strategies.</div>
+                            <div class="service-price">$3,000+</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-users-cog"></i>
+                            </div>
+                            <div class="service-title">HR Consulting</div>
+                            <div class="service-description">Human resources planning and policy development.</div>
+                            <div class="service-price">$4,000+</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-digital-tachograph"></i>
+                            </div>
+                            <div class="service-title">Digital Transformation</div>
+                            <div class="service-description">Technology integration and digital strategy implementation.</div>
+                            <div class="service-price">$8,000+</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <div class="service-title">Financial Planning</div>
+                            <div class="service-description">Comprehensive financial analysis and planning services.</div>
+                            <div class="service-price">$6,000+</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="margin-top: 30px;">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-chart-pie"></i> Service Performance</h3>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <div style="text-align: center;">
+                                    <i class="fas fa-chart-pie" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                                    <p>Service performance data will appear here</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Payments & Invoicing Section -->
+            <section id="payments-section" class="section">
+                <div class="dashboard-overview" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-revenue">$0</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pending-invoices">$0</h3>
+                            <p>Pending Invoices</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-times"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="overdue-invoices">$0</h3>
+                            <p>Overdue Payments</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="collection-rate">0%</h3>
+                            <p>Collection Rate</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-file-invoice"></i> Invoices</h3>
+                        <button class="btn btn-primary" id="create-invoice-btn">Create Invoice</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Invoice #</th>
+                                    <th>Client</th>
+                                    <th>Amount</th>
+                                    <th>Issue Date</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoices-table">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 40px;">
+                                        <div class="empty-state">
+                                            <i class="fas fa-file-invoice"></i>
+                                            <h3>No Invoices Yet</h3>
+                                            <p>Create your first invoice to start tracking payments</p>
+                                            <button class="btn btn-primary" id="create-invoice-from-empty" style="margin-top: 20px;">
+                                                <i class="fas fa-plus"></i> Create First Invoice
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-credit-card"></i> Payment Tracking</h3>
+                        <button class="btn btn-primary" id="record-payment-btn">Record Payment</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Payment ID</th>
+                                    <th>Client</th>
+                                    <th>Invoice #</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Method</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payments-table">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 40px;">
+                                        <div class="empty-state">
+                                            <i class="fas fa-credit-card"></i>
+                                            <p>No payments recorded yet</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Tax & Compliance Section -->
+            <section id="tax-section" class="section">
+                <div class="dashboard-overview" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-certificate"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="tax-clear-clients">0</h3>
+                            <p>Tax Clear Clients</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pending-tax">0</h3>
+                            <p>Pending Submissions</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="overdue-tax">0</h3>
+                            <p>Overdue Filings</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="upcoming-deadlines">0</h3>
+                            <p>Upcoming Deadlines</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-calendar-times"></i> Tax Deadlines</h3>
+                        <button class="btn btn-primary" id="add-tax-deadline-btn">Add Deadline</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Tax Type</th>
+                                    <th>Filing Period</th>
+                                    <th>Deadline</th>
+                                    <th>Days Left</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tax-deadlines-table">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 40px;">
+                                        <div class="empty-state">
+                                            <i class="fas fa-file-invoice-dollar"></i>
+                                            <h3>No Tax Deadlines</h3>
+                                            <p>Add tax deadlines to track compliance requirements</p>
+                                            <button class="btn btn-primary" id="add-tax-deadline-from-empty" style="margin-top: 20px;">
+                                                <i class="fas fa-plus"></i> Add First Deadline
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-clipboard-check"></i> Compliance Status</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Tax Clearance</th>
+                                    <th>Last Filing</th>
+                                    <th>Next Filing</th>
+                                    <th>Compliance Score</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="compliance-table">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 40px;">
+                                        <div class="empty-state">
+                                            <i class="fas fa-clipboard-check"></i>
+                                            <p>No compliance data available</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Documents Section -->
+            <section id="documents-section" class="section">
+                <div class="dashboard-overview" style="margin-bottom: 30px;">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-documents">0</h3>
+                            <p>Total Documents</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="verified-documents">0</h3>
+                            <p>Verified</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pending-review-docs">0</h3>
+                            <p>Pending Review</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="expiring-docs">0</h3>
+                            <p>Expiring Soon</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-folder"></i> Document Management</h3>
+                        <button class="btn btn-primary" id="upload-document-btn">Upload Document</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Document Name</th>
+                                    <th>Client</th>
+                                    <th>Type</th>
+                                    <th>Upload Date</th>
+                                    <th>Expiry Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="documents-table">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 40px;">
+                                        <div class="empty-state">
+                                            <i class="fas fa-file-contract"></i>
+                                            <h3>No Documents Yet</h3>
+                                            <p>Upload documents for client management</p>
+                                            <button class="btn btn-primary" id="upload-document-from-empty" style="margin-top: 20px;">
+                                                <i class="fas fa-plus"></i> Upload First Document
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Calendar Section -->
+            <section id="calendar-section" class="section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-calendar-alt"></i> Calendar</h3>
+                        <div>
+                            <button class="btn btn-outline" id="prev-month-btn"><i class="fas fa-chevron-left"></i></button>
+                            <span id="current-month" style="margin: 0 15px; font-weight: 500;">January 2024</span>
+                            <button class="btn btn-outline" id="next-month-btn"><i class="fas fa-chevron-right"></i></button>
+                            <button class="btn btn-primary" id="add-calendar-event-btn" style="margin-left: 15px;">Add Event</button>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-grid" id="calendar-grid">
+                        <!-- Calendar will be populated by JavaScript -->
+                    </div>
+                    
+                    <div class="card" style="margin-top: 30px;">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-list"></i> Upcoming Events</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Event</th>
+                                        <th>Client</th>
+                                        <th>Type</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="upcoming-events-table">
+                                    <tr>
+                                        <td colspan="5" style="text-align: center; padding: 40px;">
+                                            <div class="empty-state">
+                                                <i class="fas fa-calendar"></i>
+                                                <p>No upcoming events</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Analytics & Reports Section -->
+            <section id="reports-section" class="section">
+                <div class="tabs">
+                    <div class="tab active" data-tab="financial">Financial Reports</div>
+                    <div class="tab" data-tab="client">Client Analytics</div>
+                    <div class="tab" data-tab="performance">Performance</div>
+                    <div class="tab" data-tab="compliance">Compliance</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title" id="reports-title"><i class="fas fa-chart-bar"></i> Financial Reports</h3>
+                        <select id="reports-period">
+                            <option>Last 7 Days</option>
+                            <option>Last 30 Days</option>
+                            <option>Last Quarter</option>
+                            <option>Last Year</option>
+                        </select>
+                    </div>
+                    
+                    <div id="financial-tab" class="reports-tab active">
+                        <div class="dashboard-grid">
+                            <div class="card">
+                                <h4 style="margin-bottom: 15px;">Revenue by Service</h4>
+                                <div class="chart-container">
+                                    <div class="chart-placeholder">
+                                        <div style="text-align: center;">
+                                            <i class="fas fa-chart-pie" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                                            <p>No revenue data available</p>
+                                            <p>Create invoices to generate revenue reports</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <h4 style="margin-bottom: 15px;">Payment Collection Rate</h4>
+                                <div class="chart-container">
+                                    <div class="chart-placeholder">
+                                        <div style="text-align: center;">
+                                            <i class="fas fa-chart-line" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                                            <p>No payment data available</p>
+                                            <p>Record payments to analyze collection rates</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="client-tab" class="reports-tab">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Client</th>
+                                        <th>Services</th>
+                                        <th>Total Spent</th>
+                                        <th>Last Activity</th>
+                                        <th>Satisfaction</th>
+                                        <th>Retention Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="client-analytics">
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; padding: 40px;">
+                                            <div class="empty-state">
+                                                <i class="fas fa-users"></i>
+                                                <p>No client data available</p>
+                                                <p>Add clients to generate analytics</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div id="performance-tab" class="reports-tab">
+                        <div class="dashboard-grid">
+                            <div class="card">
+                                <h4 style="margin-bottom: 15px;">Consultant Performance</h4>
+                                <div class="chart-container">
+                                    <div class="chart-placeholder">
+                                        <div style="text-align: center;">
+                                            <i class="fas fa-user-tie" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                                            <p>No performance data available</p>
+                                            <p>Assign consultants to projects to track performance</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <h4 style="margin-bottom: 15px;">Project Completion Rate</h4>
+                                <div class="chart-container">
+                                    <div class="chart-placeholder">
+                                        <div style="text-align: center;">
+                                            <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                                            <p>No project data available</p>
+                                            <p>Create projects to track completion rates</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="compliance-tab" class="reports-tab">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Client</th>
+                                        <th>Tax Compliance</th>
+                                        <th>Document Status</th>
+                                        <th>Deadlines Met</th>
+                                        <th>Risk Level</th>
+                                        <th>Actions Required</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="compliance-reports">
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; padding: 40px;">
+                                            <div class="empty-state">
+                                                <i class="fas fa-clipboard-check"></i>
+                                                <p>No compliance data available</p>
+                                                <p>Track compliance to generate reports</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-download"></i> Export Reports</h3>
+                    </div>
+                    <div style="padding: 20px;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Report Type</label>
+                                <select id="report-type">
+                                    <option>Financial Summary</option>
+                                    <option>Client Portfolio</option>
+                                    <option>Tax Compliance</option>
+                                    <option>Project Performance</option>
+                                    <option>Consultant Productivity</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date Range</label>
+                                <select id="report-range">
+                                    <option>Last 7 Days</option>
+                                    <option>Last 30 Days</option>
+                                    <option>Last Quarter</option>
+                                    <option>Last Year</option>
+                                    <option>Custom Range</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Format</label>
+                                <select id="report-format">
+                                    <option>PDF</option>
+                                    <option>Excel (CSV)</option>
+                                    <option>HTML</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Include Charts</label>
+                                <select>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 30px;">
+                            <button class="btn btn-primary" id="generate-report-btn" style="padding: 12px 40px;">
+                                <i class="fas fa-file-download"></i> Generate & Download Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Settings Section -->
+            <section id="settings-section" class="section">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-users-cog"></i> User Management</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Username</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>Last Login</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="users-table">
+                                    <tr>
+                                        <td>Grace Bhaureni</td>
+                                        <td>grace</td>
+                                        <td>Director</td>
+                                        <td><span class="status-badge status-active">Active</span></td>
+                                        <td>Today</td>
+                                        <td>
+                                            <button class="btn btn-outline btn-sm">Edit</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ernest Murewa</td>
+                                        <td>ernest</td>
+                                        <td>Director</td>
+                                        <td><span class="status-badge status-active">Active</span></td>
+                                        <td>Today</td>
+                                        <td>
+                                            <button class="btn btn-outline btn-sm">Edit</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button class="btn btn-primary" id="add-user-btn">Add New User</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-cog"></i> System Settings</h3>
+                        </div>
+                        <div style="padding: 15px;">
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <input type="text" value="EMPAWA Consultancy" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Notification Settings</label>
+                                <select>
+                                    <option>All Notifications</option>
+                                    <option>Important Only</option>
+                                    <option>Disabled</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Reminder Days</label>
+                                <input type="number" value="7" min="1" max="30">
+                            </div>
+                            <div class="form-group">
+                                <label>Tax Deadline Alert Days</label>
+                                <input type="number" value="14" min="1" max="60">
+                            </div>
+                            <div style="margin-top: 20px;">
+                                <button class="btn btn-primary">Save Settings</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <!-- Notifications Panel -->
+    <div class="notifications-panel" id="notifications-panel">
+        <div class="notifications-header">
+            <h3><i class="fas fa-bell"></i> Notifications</h3>
+            <button class="close-notifications" id="close-notifications">&times;</button>
+        </div>
+        <div class="notifications-list" id="notifications-list">
+            <!-- Notifications will be populated by JavaScript -->
+        </div>
+    </div>
+    
+    <!-- Add Client Modal -->
+    <div class="modal" id="add-client-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Add New Client</h2>
+                <button class="modal-close" id="close-client-modal">&times;</button>
+            </div>
+            <form id="client-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="client-name">Company Name *</label>
+                        <input type="text" id="client-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="client-type">Business Type *</label>
+                        <select id="client-type" required>
+                            <option value="">Select Type</option>
+                            <option value="Startup">Startup</option>
+                            <option value="SME">Small & Medium Enterprise</option>
+                            <option value="Corporate">Corporate</option>
+                            <option value="Non-Profit">Non-Profit</option>
+                            <option value="Government">Government</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="client-contact">Contact Person *</label>
+                        <input type="text" id="client-contact" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="client-email">Email *</label>
+                        <input type="email" id="client-email" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="client-phone">Phone *</label>
+                        <input type="tel" id="client-phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="client-industry">Industry *</label>
+                        <select id="client-industry" required>
+                            <option value="">Select Industry</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Manufacturing">Manufacturing</option>
+                            <option value="Retail">Retail</option>
+                            <option value="Services">Professional Services</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Education">Education</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="client-services">Services Required *</label>
+                        <select id="client-services" multiple style="height: 120px;" required>
+                            <option value="Business Strategy">Business Strategy</option>
+                            <option value="Company Registration">Company Registration</option>
+                            <option value="Tax Advisory">Tax Advisory</option>
+                            <option value="HR Consulting">HR Consulting</option>
+                            <option value="Digital Transformation">Digital Transformation</option>
+                            <option value="Financial Planning">Financial Planning</option>
+                            <option value="Marketing Strategy">Marketing Strategy</option>
+                            <option value="Operations Management">Operations Management</option>
+                        </select>
+                        <small style="color: var(--text-muted);">Hold Ctrl/Cmd to select multiple services</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="client-status">Status</label>
+                        <select id="client-status">
+                            <option value="Active">Active</option>
+                            <option value="Prospect">Prospect</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="client-notes">Notes</label>
+                    <textarea id="client-notes" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="client-tax-clearance">Tax Clearance Status</label>
+                    <select id="client-tax-clearance">
+                        <option value="Clear">Clear</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Overdue">Overdue</option>
+                        <option value="Not Required">Not Required</option>
+                    </select>
+                </div>
+                
+                <div style="text-align: right; margin-top: 30px;">
+                    <button type="button" class="btn btn-outline" id="cancel-client-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Client</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <script>
+        // User roles and permissions for Business Consultancy
+        const userRoles = {
+            director01: {
+                name: "Grace Bhaureni",
+                displayName: "Grace Bhaureni",
+                role: "Director",
+                badge: "role-director",
+                permissions: {
+                    viewDashboard: true,
+                    manageClients: true,
+                    viewProjects: true,
+                    manageConsultancy: true,
+                    managePayments: true,
+                    manageTax: true,
+                    manageDocuments: true,
+                    viewCalendar: true,
+                    generateReports: true,
+                    manageSettings: true,
+                    editClients: true,
+                    deleteClients: true,
+                    exportData: true,
+                    approvePayments: true,
+                    manageUsers: true
+                }
+            },
+            director02: {
+                name: "Ernest Murewa",
+                displayName: "Ernest Murewa",
+                role: "Director",
+                badge: "role-director",
+                permissions: {
+                    viewDashboard: true,
+                    manageClients: true,
+                    viewProjects: true,
+                    manageConsultancy: true,
+                    managePayments: true,
+                    manageTax: true,
+                    manageDocuments: true,
+                    viewCalendar: true,
+                    generateReports: true,
+                    manageSettings: true,
+                    editClients: true,
+                    deleteClients: true,
+                    exportData: true,
+                    approvePayments: true,
+                    manageUsers: true
+                }
+            },
+            consultant01: {
+                name: "Senior Consultant 1",
+                displayName: "Senior Consultant 1",
+                role: "Consultant",
+                badge: "role-consultant",
+                permissions: {
+                    viewDashboard: true,
+                    manageClients: true,
+                    viewProjects: true,
+                    manageConsultancy: true,
+                    managePayments: false,
+                    manageTax: true,
+                    manageDocuments: true,
+                    viewCalendar: true,
+                    generateReports: true,
+                    manageSettings: false,
+                    editClients: true,
+                    deleteClients: false,
+                    exportData: true,
+                    approvePayments: false,
+                    manageUsers: false
+                }
+            },
+            consultant02: {
+                name: "Senior Consultant 2",
+                displayName: "Senior Consultant 2",
+                role: "Consultant",
+                badge: "role-consultant",
+                permissions: {
+                    viewDashboard: true,
+                    manageClients: true,
+                    viewProjects: true,
+                    manageConsultancy: true,
+                    managePayments: false,
+                    manageTax: true,
+                    manageDocuments: true,
+                    viewCalendar: true,
+                    generateReports: true,
+                    manageSettings: false,
+                    editClients: true,
+                    deleteClients: false,
+                    exportData: true,
+                    approvePayments: false,
+                    manageUsers: false
+                }
+            },
+            sales01: {
+                name: "Sales Executive",
+                displayName: "Sales Executive",
+                role: "Sales",
+                badge: "role-sales",
+                permissions: {
+                    viewDashboard: true,
+                    manageClients: true,
+                    viewProjects: false,
+                    manageConsultancy: false,
+                    managePayments: true,
+                    manageTax: false,
+                    manageDocuments: true,
+                    viewCalendar: true,
+                    generateReports: false,
+                    manageSettings: false,
+                    editClients: true,
+                    deleteClients: false,
+                    exportData: false,
+                    approvePayments: false,
+                    manageUsers: false
+                }
+            },
+            support01: {
+                name: "Support Staff",
+                displayName: "Support Staff",
+                role: "Support",
+                badge: "role-support",
+                permissions: {
+                    viewDashboard: true,
+                    manageClients: false,
+                    viewProjects: false,
+                    manageConsultancy: false,
+                    managePayments: false,
+                    manageTax: false,
+                    manageDocuments: true,
+                    viewCalendar: true,
+                    generateReports: false,
+                    manageSettings: false,
+                    editClients: false,
+                    deleteClients: false,
+                    exportData: false,
+                    approvePayments: false,
+                    manageUsers: false
+                }
+            }
+        };
+
+        // Current user
+        let currentUser = null;
+
+        // Application state
+        const state = {
+            clients: [],
+            projects: [],
+            invoices: [],
+            payments: [],
+            documents: [],
+            taxDeadlines: [],
+            calendarEvents: [],
+            notifications: [],
+            consultancyServices: [
+                { name: "Business Strategy", price: 5000, color: "#10b981" },
+                { name: "Company Registration", price: 1500, color: "#3b82f6" },
+                { name: "Tax Advisory", price: 3000, color: "#8b5cf6" },
+                { name: "HR Consulting", price: 4000, color: "#f59e0b" },
+                { name: "Digital Transformation", price: 8000, color: "#ef4444" },
+                { name: "Financial Planning", price: 6000, color: "#06b6d4" }
+            ],
+            pipelineStages: [
+                { id: 1, title: "Lead", color: "#10b981" },
+                { id: 2, title: "Proposal", color: "#3b82f6" },
+                { id: 3, title: "Negotiation", color: "#f59e0b" },
+                { id: 4, title: "Contract", color: "#8b5cf6" },
+                { id: 5, title: "In Progress", color: "#06b6d4" },
+                { id: 6, title: "Review", color: "#ec4899" },
+                { id: 7, title: "Completed", color: "#22c55e" }
+            ],
+            users: ["Grace Bhaureni", "Ernest Murewa", "Senior Consultant 1", "Senior Consultant 2", "Sales Executive", "Support Staff"],
+            nextClientId: 1,
+            nextProjectId: 1,
+            nextInvoiceId: 1,
+            nextPaymentId: 1,
+            nextDocumentId: 1,
+            nextTaxId: 1,
+            nextEventId: 1,
+            nextNotificationId: 1
+        };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Login functionality
+            const loginForm = document.getElementById('login-form');
+            const loginContainer = document.getElementById('login-container');
+            const appContainer = document.getElementById('app-container');
+            const logoutBtn = document.getElementById('logout-btn');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+                const role = document.getElementById('role').value;
+                
+                if (!username || !password || !role) {
+                    showToast('Please fill in all fields', 'error');
+                    return;
+                }
+                
+                // Set current user
+                currentUser = userRoles[role];
+                currentUser.username = username;
+                
+                // Update UI with user info
+                updateUserInterface();
+                
+                // Apply role-based permissions
+                applyRolePermissions();
+                
+                // Switch to CRM interface
+                loginContainer.style.display = 'none';
+                appContainer.style.display = 'flex';
+                
+                showToast(`Welcome to EMPAWA, ${currentUser.displayName}!`, 'success');
+                
+                // Initialize CRM functionality
+                initializeCRM();
+                
+                // Add login activity
+                addActivity(`${currentUser.displayName} logged in`, 'system', 'User logged into the system');
+            });
+            
+            // Logout functionality
+            logoutBtn.addEventListener('click', function() {
+                // Add logout activity
+                addActivity(`${currentUser.displayName} logged out`, 'system', 'User logged out of the system');
+                
+                currentUser = null;
+                appContainer.style.display = 'none';
+                loginContainer.style.display = 'flex';
+                
+                // Reset login form
+                loginForm.reset();
+                
+                showToast('Logged out successfully', 'success');
+            });
+            
+            // Initialize with sample data for demo
+            initializeSampleData();
+            
+            // Start notification checks
+            startNotificationChecks();
+        });
+        
+        function initializeSampleData() {
+            // Sample clients
+            state.clients = [
+                {
+                    id: 1,
+                    name: "Tech Innovations Ltd",
+                    contactPerson: "John Smith",
+                    email: "john@techinnovations.com",
+                    phone: "+1 (555) 123-4567",
+                    type: "Corporate",
+                    industry: "Technology",
+                    services: ["Business Strategy", "Digital Transformation"],
+                    status: "Active",
+                    taxClearance: "Clear",
+                    lastActivity: new Date().toISOString(),
+                    createdAt: new Date().toISOString(),
+                    notes: "Major client, requires regular consultations"
+                },
+                {
+                    id: 2,
+                    name: "Global Traders Inc",
+                    contactPerson: "Sarah Johnson",
+                    email: "sarah@globaltraders.com",
+                    phone: "+1 (555) 987-6543",
+                    type: "SME",
+                    industry: "Retail",
+                    services: ["Tax Advisory", "Financial Planning"],
+                    status: "Active",
+                    taxClearance: "Pending",
+                    lastActivity: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+                    createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+                    notes: "Expanding to new markets, needs tax guidance"
+                }
+            ];
+            
+            // Sample projects
+            state.projects = [
+                {
+                    id: 1,
+                    name: "Digital Transformation Strategy",
+                    clientId: 1,
+                    startDate: "2024-01-15",
+                    deadline: "2024-03-15",
+                    budget: 15000,
+                    status: "In Progress",
+                    services: ["Digital Transformation", "Business Strategy"],
+                    assignedTo: "Senior Consultant 1",
+                    progress: 65
+                },
+                {
+                    id: 2,
+                    name: "Tax Optimization Plan",
+                    clientId: 2,
+                    startDate: "2024-02-01",
+                    deadline: "2024-02-28",
+                    budget: 5000,
+                    status: "Proposal",
+                    services: ["Tax Advisory"],
+                    assignedTo: "Senior Consultant 2",
+                    progress: 20
+                }
+            ];
+            
+            // Sample invoices
+            state.invoices = [
+                {
+                    id: 1,
+                    clientId: 1,
+                    amount: 5000,
+                    issueDate: "2024-01-20",
+                    dueDate: "2024-02-20",
+                    status: "Paid",
+                    services: ["Business Strategy Consultation"]
+                },
+                {
+                    id: 2,
+                    clientId: 2,
+                    amount: 3000,
+                    issueDate: "2024-02-01",
+                    dueDate: "2024-02-28",
+                    status: "Pending",
+                    services: ["Tax Advisory Initial Assessment"]
+                }
+            ];
+            
+            // Sample tax deadlines
+            const today = new Date();
+            const nextWeek = new Date(today);
+            nextWeek.setDate(today.getDate() + 7);
+            const nextMonth = new Date(today);
+            nextMonth.setMonth(today.getMonth() + 1);
+            
+            state.taxDeadlines = [
+                {
+                    id: 1,
+                    clientId: 1,
+                    taxType: "Corporate Tax",
+                    filingPeriod: "Q4 2023",
+                    deadline: nextWeek.toISOString().split('T')[0],
+                    status: "Pending",
+                    daysLeft: 7
+                },
+                {
+                    id: 2,
+                    clientId: 2,
+                    taxType: "VAT",
+                    filingPeriod: "January 2024",
+                    deadline: nextMonth.toISOString().split('T')[0],
+                    status: "Upcoming",
+                    daysLeft: 30
+                }
+            ];
+            
+            // Sample calendar events
+            state.calendarEvents = [
+                {
+                    id: 1,
+                    title: "Client Meeting: Tech Innovations",
+                    clientId: 1,
+                    date: today.toISOString().split('T')[0],
+                    type: "meeting",
+                    description: "Quarterly strategy review"
+                },
+                {
+                    id: 2,
+                    title: "Tax Filing Deadline",
+                    clientId: 2,
+                    date: nextWeek.toISOString().split('T')[0],
+                    type: "deadline",
+                    description: "VAT submission for Q4"
+                }
+            ];
+            
+            // Sample notifications
+            state.notifications = [
+                {
+                    id: 1,
+                    title: "Payment Due",
+                    message: "Invoice #INV-2024-002 for Global Traders Inc is due in 3 days",
+                    type: "payment",
+                    time: new Date().toISOString(),
+                    read: false,
+                    clientId: 2
+                },
+                {
+                    id: 2,
+                    title: "Tax Deadline Approaching",
+                    message: "Corporate tax filing for Tech Innovations Ltd due in 7 days",
+                    type: "tax",
+                    time: new Date().toISOString(),
+                    read: false,
+                    clientId: 1
+                }
+            ];
+            
+            // Update IDs
+            state.nextClientId = 3;
+            state.nextProjectId = 3;
+            state.nextInvoiceId = 3;
+            state.nextTaxId = 3;
+            state.nextEventId = 3;
+            state.nextNotificationId = 3;
+        }
+        
+        function updateUserInterface() {
+            if (!currentUser) return;
+            
+            const userInitial = currentUser.displayName.charAt(0).toUpperCase();
+            const userName = currentUser.displayName;
+            const userRole = currentUser.role;
+            const userFullRole = currentUser.role;
+            
+            // Update avatar
+            document.getElementById('user-avatar').textContent = userInitial;
+            document.getElementById('user-avatar').style.background = userRole === "Director" ? 
+                "linear-gradient(135deg, #ef4444, #dc2626)" :
+                userRole === "Consultant" ? "linear-gradient(135deg, #10b981, #059669)" :
+                userRole === "Sales" ? "linear-gradient(135deg, #3b82f6, #2563eb)" :
+                "linear-gradient(135deg, #f59e0b, #d97706)";
+            
+            // Update sidebar
+            document.getElementById('sidebar-user-name').textContent = userName;
+            document.getElementById('sidebar-user-role').textContent = userRole;
+            document.getElementById('sidebar-user-role').className = `role-badge ${currentUser.badge}`;
+            document.getElementById('sidebar-user-full-role').textContent = userFullRole;
+            
+            // Update header
+            document.getElementById('header-user-name').textContent = userName;
+            document.getElementById('header-user-role').textContent = userRole;
+            document.getElementById('header-user-role').className = `role-badge ${currentUser.badge}`;
+            document.getElementById('header-user-full-role').textContent = userFullRole;
+        }
+        
+        function applyRolePermissions() {
+            if (!currentUser) return;
+            
+            const permissions = currentUser.permissions;
+            
+            // Show/hide sections based on permissions
+            const sections = {
+                'dashboard': permissions.viewDashboard,
+                'clients': permissions.manageClients,
+                'projects': permissions.viewProjects,
+                'consultancy': permissions.manageConsultancy,
+                'payments': permissions.managePayments,
+                'tax': permissions.manageTax,
+                'documents': permissions.manageDocuments,
+                'calendar': permissions.viewCalendar,
+                'reports': permissions.generateReports,
+                'settings': permissions.manageSettings
+            };
+            
+            // Update navigation items
+            document.querySelectorAll('.nav-item').forEach(navItem => {
+                const section = navItem.getAttribute('data-section');
+                if (sections[section]) {
+                    navItem.classList.remove('restricted');
+                    navItem.classList.remove('restricted-message');
+                } else {
+                    navItem.classList.add('restricted');
+                    navItem.classList.add('restricted-message');
+                }
+            });
+            
+            // Update buttons based on permissions
+            if (!permissions.manageClients) {
+                document.getElementById('add-client-btn').classList.add('restricted');
+                document.getElementById('add-client-btn').classList.add('restricted-message');
+                document.getElementById('add-client-from-empty')?.classList.add('restricted');
+                document.getElementById('quick-task-btn').classList.add('restricted');
+            }
+            
+            if (!permissions.viewProjects) {
+                document.getElementById('add-project-btn')?.classList.add('restricted');
+                document.getElementById('add-project-from-empty')?.classList.add('restricted');
+                document.getElementById('reset-pipeline-btn')?.classList.add('restricted');
+            }
+            
+            if (!permissions.manageConsultancy) {
+                document.getElementById('add-service-btn')?.classList.add('restricted');
+            }
+            
+            if (!permissions.managePayments) {
+                document.getElementById('create-invoice-btn')?.classList.add('restricted');
+                document.getElementById('create-invoice-from-empty')?.classList.add('restricted');
+                document.getElementById('record-payment-btn')?.classList.add('restricted');
+            }
+            
+            if (!permissions.manageTax) {
+                document.getElementById('add-tax-deadline-btn')?.classList.add('restricted');
+                document.getElementById('add-tax-deadline-from-empty')?.classList.add('restricted');
+            }
+            
+            if (!permissions.manageDocuments) {
+                document.getElementById('upload-document-btn')?.classList.add('restricted');
+                document.getElementById('upload-document-from-empty')?.classList.add('restricted');
+            }
+            
+            if (!permissions.generateReports) {
+                document.getElementById('generate-report-btn')?.classList.add('restricted');
+            }
+            
+            if (!permissions.manageSettings) {
+                document.getElementById('add-user-btn')?.classList.add('restricted');
+            }
+            
+            if (!permissions.exportData) {
+                document.getElementById('export-btn')?.classList.add('restricted');
+            }
+        }
+        
+        function initializeCRM() {
+            // Navigation between sections
+            const navItems = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('.section');
+            const pageTitle = document.getElementById('page-title');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (this.classList.contains('restricted')) {
+                        showToast('You do not have permission to access this section', 'error');
+                        return;
+                    }
+                    
+                    const sectionId = this.getAttribute('data-section') + '-section';
+                    
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show selected section
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === sectionId) {
+                            section.classList.add('active');
+                        }
+                    });
+                    
+                    // Update page title
+                    const sectionName = this.getAttribute('data-section');
+                    pageTitle.textContent = sectionName.charAt(0).toUpperCase() + sectionName.slice(1);
+                    pageTitle.innerHTML = `<i class="fas fa-${getSectionIcon(sectionName)}"></i> ${pageTitle.textContent}`;
+                    
+                    // Update the section data if needed
+                    if (sectionId === 'dashboard-section') {
+                        updateDashboard();
+                    } else if (sectionId === 'clients-section') {
+                        updateAllClientsTable();
+                    } else if (sectionId === 'projects-section') {
+                        updateProjects();
+                        updatePipeline();
+                    } else if (sectionId === 'payments-section') {
+                        updatePaymentsSection();
+                    } else if (sectionId === 'tax-section') {
+                        updateTaxSection();
+                    } else if (sectionId === 'documents-section') {
+                        updateDocumentsSection();
+                    } else if (sectionId === 'calendar-section') {
+                        updateCalendar();
+                    }
+                });
+            });
+            
+            // Notifications functionality
+            const notificationsBtn = document.getElementById('notifications-btn');
+            const closeNotificationsBtn = document.getElementById('close-notifications');
+            const notificationsPanel = document.getElementById('notifications-panel');
+            
+            notificationsBtn.addEventListener('click', function() {
+                notificationsPanel.classList.add('active');
+                updateNotifications();
+            });
+            
+            closeNotificationsBtn.addEventListener('click', function() {
+                notificationsPanel.classList.remove('active');
+            });
+            
+            // Close notifications panel when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!notificationsPanel.contains(event.target) && !notificationsBtn.contains(event.target)) {
+                    notificationsPanel.classList.remove('active');
+                }
+            });
+            
+            // Modal functionality
+            const addClientBtn = document.getElementById('add-client-btn');
+            const addClientFromEmptyBtn = document.getElementById('add-client-from-empty');
+            const addClientModal = document.getElementById('add-client-modal');
+            const closeClientModal = document.getElementById('close-client-modal');
+            const cancelClientBtn = document.getElementById('cancel-client-btn');
+            
+            // Open client modal from various buttons
+            [addClientBtn, addClientFromEmptyBtn].forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', function() {
+                        if (this.classList.contains('restricted')) {
+                            showToast('You do not have permission to add clients', 'error');
+                            return;
+                        }
+                        openClientModal();
+                    });
+                }
+            });
+            
+            // Close client modal
+            [closeClientModal, cancelClientBtn].forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', function() {
+                        closeClientModalFunc();
+                    });
+                }
+            });
+            
+            // Form submission
+            const clientForm = document.getElementById('client-form');
+            clientForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!currentUser || !currentUser.permissions.manageClients) {
+                    showToast('You do not have permission to add clients', 'error');
+                    return;
+                }
+                
+                // Get form values
+                const clientName = document.getElementById('client-name').value;
+                const clientType = document.getElementById('client-type').value;
+                const contactPerson = document.getElementById('client-contact').value;
+                const email = document.getElementById('client-email').value;
+                const phone = document.getElementById('client-phone').value;
+                const industry = document.getElementById('client-industry').value;
+                const services = Array.from(document.getElementById('client-services').selectedOptions).map(opt => opt.value);
+                const status = document.getElementById('client-status').value;
+                const notes = document.getElementById('client-notes').value;
+                const taxClearance = document.getElementById('client-tax-clearance').value;
+                
+                // Create new client object
+                const newClient = {
+                    id: state.nextClientId++,
+                    name: clientName,
+                    contactPerson: contactPerson,
+                    email: email,
+                    phone: phone,
+                    type: clientType,
+                    industry: industry,
+                    services: services,
+                    status: status,
+                    taxClearance: taxClearance,
+                    lastActivity: new Date().toISOString(),
+                    createdAt: new Date().toISOString(),
+                    notes: notes,
+                    createdBy: currentUser.displayName
+                };
+                
+                // Add to clients array
+                state.clients.unshift(newClient);
+                
+                // Add activity
+                addActivity(`New client added: ${clientName}`, 'client', `Client ${clientName} was added to the system by ${currentUser.displayName}`);
+                
+                // Check if tax clearance is overdue
+                if (taxClearance === 'Overdue') {
+                    addNotification(
+                        'Tax Clearance Overdue',
+                        `Client ${clientName} has overdue tax clearance`,
+                        'tax',
+                        newClient.id
+                    );
+                }
+                
+                // Update all UI sections
+                updateDashboard();
+                updateAllClientsTable();
+                updateTaxSection();
+                
+                // Reset form and close modal
+                clientForm.reset();
+                closeClientModalFunc();
+                
+                // Show success message
+                showToast('Client added successfully!', 'success');
+            });
+            
+            // Quick actions
+            const quickTaskBtn = document.getElementById('quick-task-btn');
+            if (quickTaskBtn) {
+                quickTaskBtn.addEventListener('click', function() {
+                    createQuickTask();
+                });
+            }
+            
+            // Initialize data
+            updateDashboard();
+            updatePipeline();
+            updateNotificationsBadge();
+            
+            // Drag and drop functionality
+            initializeDragAndDrop();
+        }
+        
+        function getSectionIcon(section) {
+            const icons = {
+                'dashboard': 'home',
+                'clients': 'users',
+                'projects': 'project-diagram',
+                'consultancy': 'handshake',
+                'payments': 'credit-card',
+                'tax': 'file-invoice-dollar',
+                'documents': 'file-contract',
+                'calendar': 'calendar-alt',
+                'reports': 'chart-bar',
+                'settings': 'cog'
+            };
+            return icons[section] || 'circle';
+        }
+        
+        function openClientModal() {
+            const addClientModal = document.getElementById('add-client-modal');
+            addClientModal.classList.add('active');
+            document.getElementById('client-form').reset();
+            document.querySelector('#add-client-modal h2').innerHTML = '<i class="fas fa-user-plus"></i> Add New Client';
+            document.querySelector('#add-client-modal .btn-primary').textContent = 'Add Client';
+        }
+        
+        function closeClientModalFunc() {
+            const addClientModal = document.getElementById('add-client-modal');
+            addClientModal.classList.remove('active');
+            document.getElementById('client-form').reset();
+        }
+        
+        function updateDashboard() {
+            const totalClients = state.clients.length;
+            const activeProjects = state.projects.filter(p => p.status === 'In Progress').length;
+            
+            // Calculate monthly revenue
+            let monthlyRevenue = 0;
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            
+            state.payments.forEach(payment => {
+                const paymentDate = new Date(payment.date);
+                if (paymentDate.getMonth() === currentMonth && paymentDate.getFullYear() === currentYear) {
+                    monthlyRevenue += payment.amount;
+                }
+            });
+            
+            // Add some pending tasks (simulated)
+            const pendingTasks = state.projects.filter(p => p.status !== 'Completed').length + 
+                               state.invoices.filter(i => i.status === 'Pending').length;
+            
+            // Update dashboard stats
+            document.getElementById('total-clients').textContent = totalClients;
+            document.getElementById('active-projects').textContent = activeProjects;
+            document.getElementById('monthly-revenue').textContent = `$${monthlyRevenue.toLocaleString()}`;
+            document.getElementById('pending-tasks').textContent = pendingTasks;
+            
+            // Update urgent alerts
+            updateUrgentAlerts();
+            
+            // Update recent activity
+            updateRecentActivity();
+        }
+        
+        function updateUrgentAlerts() {
+            const urgentAlertsTable = document.getElementById('urgent-alerts');
+            
+            // Get overdue invoices
+            const today = new Date();
+            const overdueInvoices = state.invoices.filter(invoice => {
+                if (invoice.status === 'Pending') {
+                    const dueDate = new Date(invoice.dueDate);
+                    return dueDate < today;
+                }
+                return false;
+            });
+            
+            // Get upcoming tax deadlines (within 7 days)
+            const upcomingTaxDeadlines = state.taxDeadlines.filter(deadline => {
+                const deadlineDate = new Date(deadline.deadline);
+                const daysDiff = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+                return daysDiff <= 7 && daysDiff > 0;
+            });
+            
+            const urgentItems = [...overdueInvoices, ...upcomingTaxDeadlines];
+            
+            if (urgentItems.length === 0) {
+                urgentAlertsTable.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 40px;">
+                            <div class="empty-state">
+                                <i class="fas fa-check-circle"></i>
+                                <p>No urgent alerts</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            urgentAlertsTable.innerHTML = '';
+            
+            urgentItems.forEach((item, index) => {
+                const client = state.clients.find(c => c.id === item.clientId);
+                const row = document.createElement('tr');
+                
+                if (item.amount) {
+                    // It's an invoice
+                    row.innerHTML = `
+                        <td><span class="notification-type type-payment">Payment Overdue</span></td>
+                        <td>${client ? client.name : 'Unknown Client'}</td>
+                        <td>${formatDate(item.dueDate)}</td>
+                        <td><span class="status-badge status-overdue">Overdue</span></td>
+                    `;
+                } else {
+                    // It's a tax deadline
+                    row.innerHTML = `
+                        <td><span class="notification-type type-tax">Tax Deadline</span></td>
+                        <td>${client ? client.name : 'Unknown Client'}</td>
+                        <td>${formatDate(item.deadline)}</td>
+                        <td><span class="status-badge status-pending">${item.daysLeft} days</span></td>
+                    `;
+                }
+                
+                urgentAlertsTable.appendChild(row);
+            });
+        }
+        
+        function updateRecentActivity() {
+            // This would normally come from a server
+            // For demo, we'll use simulated activity
+            const recentActivityTable = document.getElementById('recent-activity');
+            
+            const activities = [
+                { time: '10:30 AM', activity: 'Client meeting', client: 'Tech Innovations Ltd', user: 'Grace Bhaureni', details: 'Strategy discussion' },
+                { time: 'Yesterday', activity: 'Invoice sent', client: 'Global Traders Inc', user: 'System', details: 'INV-2024-002' },
+                { time: '2 days ago', activity: 'Project update', client: 'Tech Innovations Ltd', user: 'Senior Consultant 1', details: 'Progress: 65%' }
+            ];
+            
+            recentActivityTable.innerHTML = '';
+            
+            activities.forEach(activity => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${activity.time}</td>
+                    <td>${activity.activity}</td>
+                    <td>${activity.client}</td>
+                    <td>${activity.user}</td>
+                    <td>${activity.details}</td>
+                `;
+                recentActivityTable.appendChild(row);
+            });
+        }
+        
+        function updateAllClientsTable() {
+            const allClientsTable = document.getElementById('all-clients');
+            
+            if (state.clients.length === 0) {
+                allClientsTable.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px;">
+                            <div class="empty-state">
+                                <i class="fas fa-users"></i>
+                                <h3>No Clients Yet</h3>
+                                <p>Add your first client to start managing relationships</p>
+                                <button class="btn btn-primary" id="add-client-from-empty" style="margin-top: 20px;">
+                                    <i class="fas fa-plus"></i> Add First Client
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                
+                // Re-attach event listener to the button
+                setTimeout(() => {
+                    const addClientFromEmptyBtn = document.getElementById('add-client-from-empty');
+                    if (addClientFromEmptyBtn) {
+                        addClientFromEmptyBtn.addEventListener('click', function() {
+                            openClientModal();
+                        });
+                    }
+                }, 100);
+                
+                return;
+            }
+            
+            allClientsTable.innerHTML = '';
+            
+            state.clients.forEach(client => {
+                const row = document.createElement('tr');
+                const taxStatus = getTaxStatusBadge(client.taxClearance);
+                
+                row.innerHTML = `
+                    <td>${client.name}</td>
+                    <td>${client.contactPerson}<br><small>${client.email}</small></td>
+                    <td>${client.services.map(s => `<span class="service-tag">${s}</span>`).join('')}</td>
+                    <td><span class="status-badge status-${client.status.toLowerCase()}">${client.status}</span></td>
+                    <td>${formatDate(client.lastActivity, true)}</td>
+                    <td>${taxStatus}</td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="viewClient(${client.id})">View</button>
+                        ${currentUser && currentUser.permissions.editClients ? 
+                            `<button class="btn btn-outline btn-sm" onclick="editClient(${client.id})">Edit</button>` : ''
+                        }
+                    </td>
+                `;
+                allClientsTable.appendChild(row);
+            });
+        }
+        
+        function getTaxStatusBadge(status) {
+            const statusMap = {
+                'Clear': { class: 'tax-clear', icon: 'check', text: 'Clear' },
+                'Pending': { class: 'tax-pending', icon: 'clock', text: 'Pending' },
+                'Overdue': { class: 'tax-overdue', icon: 'exclamation', text: 'Overdue' },
+                'Not Required': { class: 'status-inactive', icon: 'ban', text: 'N/A' }
+            };
+            
+            const taxStatus = statusMap[status] || statusMap['Pending'];
+            return `
+                <div class="tax-status">
+                    <div class="tax-icon ${taxStatus.class}">
+                        <i class="fas fa-${taxStatus.icon}"></i>
+                    </div>
+                    <span>${taxStatus.text}</span>
+                </div>
+            `;
+        }
+        
+        function updatePipeline() {
+            const pipelineContainer = document.getElementById('pipeline-container');
+            pipelineContainer.innerHTML = '';
+            
+            state.pipelineStages.forEach(stage => {
+                // Filter projects for this stage
+                const stageProjects = state.projects.filter(project => project.status === stage.title);
+                
+                const stageElement = document.createElement('div');
+                stageElement.className = 'pipeline-stage';
+                stageElement.setAttribute('data-stage-id', stage.id);
+                
+                stageElement.innerHTML = `
+                    <div class="stage-header">
+                        <div class="stage-title">${stage.title}</div>
+                        <div class="stage-count">${stageProjects.length}</div>
+                    </div>
+                `;
+                
+                // Add projects to stage
+                stageProjects.forEach(project => {
+                    const client = state.clients.find(c => c.id === project.clientId);
+                    const projectElement = document.createElement('div');
+                    projectElement.className = 'client-item';
+                    projectElement.setAttribute('draggable', 'true');
+                    projectElement.setAttribute('data-project-id', project.id);
+                    
+                    projectElement.innerHTML = `
+                        <div class="client-name">${project.name}</div>
+                        <div class="client-info">${client ? client.name : 'Unknown Client'}</div>
+                        <div class="client-info">${project.assignedTo} • ${formatDate(project.startDate)}</div>
+                        <div>Budget: $${project.budget.toLocaleString()}</div>
+                        <div style="margin-top: 8px;">
+                            <div style="height: 4px; background-color: var(--light-gray); border-radius: 2px; overflow: hidden;">
+                                <div style="height: 100%; width: ${project.progress}%; background-color: ${stage.color};"></div>
+                            </div>
+                            <div style="font-size: 0.8rem; text-align: right; margin-top: 2px;">${project.progress}%</div>
+                        </div>
+                    `;
+                    
+                    stageElement.appendChild(projectElement);
+                });
+                
+                pipelineContainer.appendChild(stageElement);
+            });
+            
+            // Re-initialize drag and drop after updating pipeline
+            initializeDragAndDrop();
+        }
+        
+        function updateProjects() {
+            // Update project stats
+            document.getElementById('total-projects').textContent = state.projects.length;
+            document.getElementById('ongoing-projects').textContent = state.projects.filter(p => p.status === 'In Progress').length;
+            document.getElementById('completed-projects').textContent = state.projects.filter(p => p.status === 'Completed').length;
+            document.getElementById('delayed-projects').textContent = state.projects.filter(p => {
+                if (p.deadline && p.status !== 'Completed') {
+                    const deadline = new Date(p.deadline);
+                    return deadline < new Date();
+                }
+                return false;
+            }).length;
+            
+            // Update projects table
+            const projectsTable = document.getElementById('projects-table');
+            
+            if (state.projects.length === 0) {
+                projectsTable.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px;">
+                            <div class="empty-state">
+                                <i class="fas fa-project-diagram"></i>
+                                <h3>No Projects Yet</h3>
+                                <p>Add your first project to start tracking progress</p>
+                                <button class="btn btn-primary" id="add-project-from-empty" style="margin-top: 20px;">
+                                    <i class="fas fa-plus"></i> Add First Project
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                
+                // Re-attach event listener
+                setTimeout(() => {
+                    const addProjectFromEmptyBtn = document.getElementById('add-project-from-empty');
+                    if (addProjectFromEmptyBtn) {
+                        addProjectFromEmptyBtn.addEventListener('click', function() {
+                            addSampleProject();
+                        });
+                    }
+                }, 100);
+                
+                return;
+            }
+            
+            projectsTable.innerHTML = '';
+            
+            state.projects.forEach(project => {
+                const client = state.clients.find(c => c.id === project.clientId);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${project.name}</td>
+                    <td>${client ? client.name : 'Unknown'}</td>
+                    <td>${formatDate(project.startDate)}</td>
+                    <td>${formatDate(project.deadline)}</td>
+                    <td>$${project.budget.toLocaleString()}</td>
+                    <td><span class="status-badge status-${project.status.toLowerCase().replace(' ', '-')}">${project.status}</span></td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="viewProject(${project.id})">View</button>
+                    </td>
+                `;
+                projectsTable.appendChild(row);
+            });
+        }
+        
+        function updatePaymentsSection() {
+            // Calculate payment stats
+            const totalRevenue = state.payments.reduce((sum, payment) => sum + payment.amount, 0);
+            const pendingInvoices = state.invoices.filter(i => i.status === 'Pending').reduce((sum, invoice) => sum + invoice.amount, 0);
+            const overdueInvoices = state.invoices.filter(i => {
+                if (i.status === 'Pending') {
+                    const dueDate = new Date(i.dueDate);
+                    return dueDate < new Date();
+                }
+                return false;
+            }).reduce((sum, invoice) => sum + invoice.amount, 0);
+            
+            const paidInvoices = state.invoices.filter(i => i.status === 'Paid').length;
+            const totalInvoices = state.invoices.length;
+            const collectionRate = totalInvoices > 0 ? Math.round((paidInvoices / totalInvoices) * 100) : 0;
+            
+            // Update payment stats
+            document.getElementById('total-revenue').textContent = `$${totalRevenue.toLocaleString()}`;
+            document.getElementById('pending-invoices').textContent = `$${pendingInvoices.toLocaleString()}`;
+            document.getElementById('overdue-invoices').textContent = `$${overdueInvoices.toLocaleString()}`;
+            document.getElementById('collection-rate').textContent = `${collectionRate}%`;
+            
+            // Update invoices table
+            updateInvoicesTable();
+            
+            // Update payments table
+            updatePaymentsTable();
+        }
+        
+        function updateInvoicesTable() {
+            const invoicesTable = document.getElementById('invoices-table');
+            
+            if (state.invoices.length === 0) {
+                return; // Already handled in HTML
+            }
+            
+            invoicesTable.innerHTML = '';
+            
+            state.invoices.forEach(invoice => {
+                const client = state.clients.find(c => c.id === invoice.clientId);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>INV-2024-${String(invoice.id).padStart(3, '0')}</td>
+                    <td>${client ? client.name : 'Unknown'}</td>
+                    <td>$${invoice.amount}</td>
+                    <td>${formatDate(invoice.issueDate)}</td>
+                    <td>${formatDate(invoice.dueDate)}</td>
+                    <td><span class="status-badge status-${invoice.status.toLowerCase()}">${invoice.status}</span></td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="viewInvoice(${invoice.id})">View</button>
+                    </td>
+                `;
+                invoicesTable.appendChild(row);
+            });
+        }
+        
+        function updatePaymentsTable() {
+            const paymentsTable = document.getElementById('payments-table');
+            
+            // For demo, we'll create sample payments from invoices
+            const samplePayments = state.invoices
+                .filter(invoice => invoice.status === 'Paid')
+                .map(invoice => {
+                    const client = state.clients.find(c => c.id === invoice.clientId);
+                    return {
+                        id: invoice.id,
+                        client: client ? client.name : 'Unknown',
+                        invoice: `INV-2024-${String(invoice.id).padStart(3, '0')}`,
+                        amount: invoice.amount,
+                        date: invoice.issueDate,
+                        method: 'Bank Transfer',
+                        status: 'Completed'
+                    };
+                });
+            
+            if (samplePayments.length === 0) {
+                return; // Already handled in HTML
+            }
+            
+            paymentsTable.innerHTML = '';
+            
+            samplePayments.forEach(payment => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>PAY-${String(payment.id).padStart(3, '0')}</td>
+                    <td>${payment.client}</td>
+                    <td>${payment.invoice}</td>
+                    <td>$${payment.amount}</td>
+                    <td>${formatDate(payment.date)}</td>
+                    <td>${payment.method}</td>
+                    <td><span class="status-badge status-completed">${payment.status}</span></td>
+                `;
+                paymentsTable.appendChild(row);
+            });
+        }
+        
+        function updateTaxSection() {
+            // Calculate tax stats
+            const taxClearClients = state.clients.filter(c => c.taxClearance === 'Clear').length;
+            const pendingTax = state.taxDeadlines.filter(t => t.status === 'Pending').length;
+            const overdueTax = state.taxDeadlines.filter(t => t.status === 'Overdue').length;
+            
+            const today = new Date();
+            const upcomingDeadlines = state.taxDeadlines.filter(deadline => {
+                const deadlineDate = new Date(deadline.deadline);
+                const daysDiff = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+                return daysDiff > 0 && daysDiff <= 30;
+            }).length;
+            
+            // Update tax stats
+            document.getElementById('tax-clear-clients').textContent = taxClearClients;
+            document.getElementById('pending-tax').textContent = pendingTax;
+            document.getElementById('overdue-tax').textContent = overdueTax;
+            document.getElementById('upcoming-deadlines').textContent = upcomingDeadlines;
+            
+            // Update tax deadlines table
+            updateTaxDeadlinesTable();
+            
+            // Update compliance table
+            updateComplianceTable();
+        }
+        
+        function updateTaxDeadlinesTable() {
+            const taxDeadlinesTable = document.getElementById('tax-deadlines-table');
+            
+            if (state.taxDeadlines.length === 0) {
+                return; // Already handled in HTML
+            }
+            
+            taxDeadlinesTable.innerHTML = '';
+            
+            const today = new Date();
+            state.taxDeadlines.forEach(deadline => {
+                const client = state.clients.find(c => c.id === deadline.clientId);
+                const deadlineDate = new Date(deadline.deadline);
+                const daysDiff = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+                
+                let statusClass = 'status-active';
+                let statusText = 'Upcoming';
+                
+                if (daysDiff < 0) {
+                    statusClass = 'status-overdue';
+                    statusText = 'Overdue';
+                } else if (daysDiff <= 7) {
+                    statusClass = 'status-pending';
+                    statusText = 'Due Soon';
+                }
+                
+                deadline.daysLeft = daysDiff;
+                deadline.status = statusText;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${client ? client.name : 'Unknown'}</td>
+                    <td>${deadline.taxType}</td>
+                    <td>${deadline.filingPeriod}</td>
+                    <td>${formatDate(deadline.deadline)}</td>
+                    <td>${daysDiff > 0 ? daysDiff : 'Overdue'}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="viewTaxDeadline(${deadline.id})">View</button>
+                    </td>
+                `;
+                taxDeadlinesTable.appendChild(row);
+            });
+        }
+        
+        function updateComplianceTable() {
+            const complianceTable = document.getElementById('compliance-table');
+            
+            if (state.clients.length === 0) {
+                return;
+            }
+            
+            complianceTable.innerHTML = '';
+            
+            state.clients.forEach(client => {
+                const clientDeadlines = state.taxDeadlines.filter(t => t.clientId === client.id);
+                const completedDeadlines = clientDeadlines.filter(t => t.status !== 'Overdue' && t.status !== 'Due Soon').length;
+                const totalDeadlines = clientDeadlines.length;
+                const complianceScore = totalDeadlines > 0 ? Math.round((completedDeadlines / totalDeadlines) * 100) : 100;
+                
+                // Find last and next filing
+                const sortedDeadlines = [...clientDeadlines].sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+                const lastFiling = sortedDeadlines.length > 0 ? sortedDeadlines[0].deadline : null;
+                const nextFiling = sortedDeadlines.length > 1 ? sortedDeadlines[1].deadline : null;
+                
+                let statusClass = 'status-active';
+                let statusText = 'Compliant';
+                
+                if (complianceScore < 50) {
+                    statusClass = 'status-overdue';
+                    statusText = 'High Risk';
+                } else if (complianceScore < 80) {
+                    statusClass = 'status-pending';
+                    statusText = 'Moderate Risk';
+                }
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${client.name}</td>
+                    <td>${getTaxStatusBadge(client.taxClearance)}</td>
+                    <td>${lastFiling ? formatDate(lastFiling) : 'N/A'}</td>
+                    <td>${nextFiling ? formatDate(nextFiling) : 'N/A'}</td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="font-weight: 600; color: ${complianceScore >= 80 ? '#10b981' : complianceScore >= 50 ? '#f59e0b' : '#ef4444'}">${complianceScore}%</div>
+                            <div style="height: 6px; flex: 1; background-color: var(--light-gray); border-radius: 3px; overflow: hidden;">
+                                <div style="height: 100%; width: ${complianceScore}%; background-color: ${complianceScore >= 80 ? '#10b981' : complianceScore >= 50 ? '#f59e0b' : '#ef4444'};"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                `;
+                complianceTable.appendChild(row);
+            });
+        }
+        
+        function updateDocumentsSection() {
+            // Update document stats
+            document.getElementById('total-documents').textContent = state.documents.length;
+            // For demo, we'll use simulated numbers
+            document.getElementById('verified-documents').textContent = Math.floor(state.documents.length * 0.7);
+            document.getElementById('pending-review-docs').textContent = Math.floor(state.documents.length * 0.2);
+            document.getElementById('expiring-docs').textContent = Math.floor(state.documents.length * 0.1);
+        }
+        
+        function updateCalendar() {
+            const today = new Date();
+            const currentMonthEl = document.getElementById('current-month');
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
+            currentMonthEl.textContent = `${monthNames[today.getMonth()]} ${today.getFullYear()}`;
+            
+            // Update calendar grid
+            updateCalendarGrid(today);
+            
+            // Update upcoming events
+            updateUpcomingEvents();
+        }
+        
+        function updateCalendarGrid(date) {
+            const calendarGrid = document.getElementById('calendar-grid');
+            calendarGrid.innerHTML = '';
+            
+            // Create day headers
+            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayHeaders.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                calendarGrid.appendChild(dayHeader);
+            });
+            
+            // Get first day of month and total days
+            const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+            const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+            const totalDays = lastDay.getDate();
+            const firstDayIndex = firstDay.getDay();
+            
+            // Add empty cells for days before first day of month
+            for (let i = 0; i < firstDayIndex; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                calendarGrid.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            for (let day = 1; day <= totalDays; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                
+                const currentDate = new Date(date.getFullYear(), date.getMonth(), day);
+                const dateString = currentDate.toISOString().split('T')[0];
+                
+                // Find events for this day
+                const dayEvents = state.calendarEvents.filter(event => event.date === dateString);
+                
+                dayElement.innerHTML = `
+                    <div class="calendar-day-header">${day}</div>
+                    ${dayEvents.map(event => `
+                        <div class="calendar-event ${event.type}" onclick="viewCalendarEvent(${event.id})">
+                            ${event.title}
+                        </div>
+                    `).join('')}
+                `;
+                
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+        
+        function updateUpcomingEvents() {
+            const upcomingEventsTable = document.getElementById('upcoming-events-table');
+            const today = new Date();
+            
+            // Get events from today onwards
+            const upcomingEvents = state.calendarEvents
+                .filter(event => new Date(event.date) >= today)
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .slice(0, 10); // Limit to 10 events
+            
+            if (upcomingEvents.length === 0) {
+                return; // Already handled in HTML
+            }
+            
+            upcomingEventsTable.innerHTML = '';
+            
+            upcomingEvents.forEach(event => {
+                const client = state.clients.find(c => c.id === event.clientId);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${formatDate(event.date)}</td>
+                    <td>${event.title}</td>
+                    <td>${client ? client.name : 'N/A'}</td>
+                    <td><span class="status-badge status-${event.type === 'meeting' ? 'active' : 'pending'}">${event.type}</span></td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="viewCalendarEvent(${event.id})">View</button>
+                    </td>
+                `;
+                upcomingEventsTable.appendChild(row);
+            });
+        }
+        
+        function updateNotifications() {
+            const notificationsList = document.getElementById('notifications-list');
+            const unreadNotifications = state.notifications.filter(n => !n.read);
+            
+            if (unreadNotifications.length === 0) {
+                notificationsList.innerHTML = `
+                    <div class="empty-state" style="padding: 40px 20px;">
+                        <i class="fas fa-bell-slash"></i>
+                        <p>No new notifications</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            notificationsList.innerHTML = '';
+            
+            unreadNotifications.forEach(notification => {
+                const client = state.clients.find(c => c.id === notification.clientId);
+                const notificationElement = document.createElement('div');
+                notificationElement.className = `notification-item ${notification.read ? '' : 'unread'}`;
+                notificationElement.innerHTML = `
+                    <div class="notification-type type-${notification.type}">${notification.type.toUpperCase()}</div>
+                    <div class="notification-title">${notification.title}</div>
+                    <div class="notification-message">${notification.message}</div>
+                    <div class="notification-time">
+                        <i class="far fa-clock"></i>
+                        ${formatDate(notification.time, true)}
+                    </div>
+                    <div class="notification-actions">
+                        <button class="btn btn-outline btn-sm" onclick="markNotificationRead(${notification.id})">Mark as Read</button>
+                        ${client ? `<button class="btn btn-primary btn-sm" onclick="viewClient(${client.id})">View Client</button>` : ''}
+                    </div>
+                `;
+                notificationsList.appendChild(notificationElement);
+            });
+        }
+        
+        function updateNotificationsBadge() {
+            const unreadCount = state.notifications.filter(n => !n.read).length;
+            document.getElementById('notifications-count').textContent = unreadCount;
+            document.getElementById('dashboard-notifications').textContent = unreadCount;
+        }
+        
+        function addNotification(title, message, type, clientId) {
+            const newNotification = {
+                id: state.nextNotificationId++,
+                title: title,
+                message: message,
+                type: type,
+                time: new Date().toISOString(),
+                read: false,
+                clientId: clientId
+            };
+            
+            state.notifications.unshift(newNotification);
+            updateNotificationsBadge();
+            
+            // Show toast for important notifications
+            if (type === 'payment' || type === 'tax') {
+                showToast(`${title}: ${message}`, type === 'payment' ? 'warning' : 'error');
+            }
+        }
+        
+        function addActivity(activity, type, details) {
+            // In a real app, this would save to server
+            console.log(`Activity: ${activity} - ${details}`);
+        }
+        
+        function markNotificationRead(notificationId) {
+            const notification = state.notifications.find(n => n.id === notificationId);
+            if (notification) {
+                notification.read = true;
+                updateNotifications();
+                updateNotificationsBadge();
+            }
+        }
+        
+        function startNotificationChecks() {
+            // Check for payment due dates every hour
+            setInterval(() => {
+                checkPaymentDueDates();
+                checkTaxDeadlines();
+            }, 60 * 60 * 1000); // Every hour
+            
+            // Run initial checks
+            checkPaymentDueDates();
+            checkTaxDeadlines();
+        }
+        
+        function checkPaymentDueDates() {
+            const today = new Date();
+            const threeDaysFromNow = new Date(today);
+            threeDaysFromNow.setDate(today.getDate() + 3);
+            
+            state.invoices.forEach(invoice => {
+                if (invoice.status === 'Pending') {
+                    const dueDate = new Date(invoice.dueDate);
+                    const client = state.clients.find(c => c.id === invoice.clientId);
+                    
+                    // Check if due in 3 days
+                    if (dueDate.toDateString() === threeDaysFromNow.toDateString()) {
+                        addNotification(
+                            'Payment Due Soon',
+                            `Invoice #INV-2024-${String(invoice.id).padStart(3, '0')} for ${client ? client.name : 'Unknown Client'} is due in 3 days`,
+                            'payment',
+                            invoice.clientId
+                        );
+                    }
+                    
+                    // Check if overdue
+                    if (dueDate < today) {
+                        addNotification(
+                            'Payment Overdue',
+                            `Invoice #INV-2024-${String(invoice.id).padStart(3, '0')} for ${client ? client.name : 'Unknown Client'} is overdue`,
+                            'payment',
+                            invoice.clientId
+                        );
+                    }
+                }
+            });
+        }
+        
+        function checkTaxDeadlines() {
+            const today = new Date();
+            const sevenDaysFromNow = new Date(today);
+            sevenDaysFromNow.setDate(today.getDate() + 7);
+            
+            state.taxDeadlines.forEach(deadline => {
+                const deadlineDate = new Date(deadline.deadline);
+                const client = state.clients.find(c => c.id === deadline.clientId);
+                
+                // Check if due in 7 days
+                if (deadlineDate.toDateString() === sevenDaysFromNow.toDateString()) {
+                    addNotification(
+                        'Tax Deadline Approaching',
+                        `${deadline.taxType} filing for ${client ? client.name : 'Unknown Client'} due in 7 days`,
+                        'tax',
+                        deadline.clientId
+                    );
+                }
+                
+                // Check if overdue
+                if (deadlineDate < today) {
+                    addNotification(
+                        'Tax Deadline Overdue',
+                        `${deadline.taxType} filing for ${client ? client.name : 'Unknown Client'} is overdue`,
+                        'tax',
+                        deadline.clientId
+                    );
+                    
+                    // Update client tax clearance status
+                    const client = state.clients.find(c => c.id === deadline.clientId);
+                    if (client && client.taxClearance !== 'Overdue') {
+                        client.taxClearance = 'Overdue';
+                        updateAllClientsTable();
+                    }
+                }
+            });
+        }
+        
+        // Quick action functions
+        function createQuickTask() {
+            const task = prompt('Enter quick task description:');
+            if (task && task.trim()) {
+                showToast(`Task created: ${task}`, 'success');
+                addActivity('Quick task created', 'task', task);
+            }
+        }
+        
+        function openAddClientModal() {
+            openClientModal();
+        }
+        
+        function createInvoice() {
+            if (state.clients.length === 0) {
+                showToast('No clients available to create invoice', 'warning');
+                return;
+            }
+            
+            const client = state.clients[0]; // Use first client for demo
+            const amount = Math.floor(Math.random() * 5000) + 1000;
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 30);
+            
+            const newInvoice = {
+                id: state.nextInvoiceId++,
+                clientId: client.id,
+                amount: amount,
+                issueDate: new Date().toISOString().split('T')[0],
+                dueDate: dueDate.toISOString().split('T')[0],
+                status: 'Pending',
+                services: [client.services[0] || 'Consultancy Service']
+            };
+            
+            state.invoices.push(newInvoice);
+            updatePaymentsSection();
+            
+            showToast(`Invoice created for ${client.name}: $${amount}`, 'success');
+            addActivity('Invoice created', 'invoice', `Invoice #INV-2024-${String(newInvoice.id).padStart(3, '0')} for ${client.name}`);
+            
+            // Schedule notification for 3 days before due date
+            const notificationDate = new Date(dueDate);
+            notificationDate.setDate(notificationDate.getDate() - 3);
+            
+            addNotification(
+                'Invoice Created',
+                `Invoice #INV-2024-${String(newInvoice.id).padStart(3, '0')} created for ${client.name}. Due: ${formatDate(dueDate)}`,
+                'payment',
+                client.id
+            );
+        }
+        
+        function scheduleMeeting() {
+            if (state.clients.length === 0) {
+                showToast('No clients available to schedule meeting', 'warning');
+                return;
+            }
+            
+            const client = state.clients[0]; // Use first client for demo
+            const meetingDate = new Date();
+            meetingDate.setDate(meetingDate.getDate() + 2);
+            
+            const newEvent = {
+                id: state.nextEventId++,
+                title: `Meeting with ${client.name}`,
+                clientId: client.id,
+                date: meetingDate.toISOString().split('T')[0],
+                type: 'meeting',
+                description: 'Client consultation meeting'
+            };
+            
+            state.calendarEvents.push(newEvent);
+            
+            if (document.getElementById('calendar-section').classList.contains('active')) {
+                updateCalendar();
+            }
+            
+            showToast(`Meeting scheduled with ${client.name} for ${formatDate(meetingDate)}`, 'success');
+            addActivity('Meeting scheduled', 'calendar', `Meeting with ${client.name} on ${formatDate(meetingDate)}`);
+        }
+        
+        function generateReport() {
+            showToast('Quick report generated successfully', 'success');
+            addActivity('Quick report generated', 'report', 'Dashboard quick report');
+        }
+        
+        function checkTaxDeadlines() {
+            const overdueCount = state.taxDeadlines.filter(t => {
+                const deadlineDate = new Date(t.deadline);
+                return deadlineDate < new Date();
+            }).length;
+            
+            if (overdueCount > 0) {
+                showToast(`${overdueCount} tax deadlines are overdue`, 'warning');
+            } else {
+                showToast('All tax deadlines are up to date', 'success');
+            }
+        }
+        
+        // View functions
+        function viewClient(clientId) {
+            const client = state.clients.find(c => c.id === clientId);
+            if (client) {
+                alert(`Client Details:\n\nCompany: ${client.name}\nContact: ${client.contactPerson}\nEmail: ${client.email}\nPhone: ${client.phone}\nType: ${client.type}\nIndustry: ${client.industry}\nServices: ${client.services.join(', ')}\nStatus: ${client.status}\nTax Clearance: ${client.taxClearance}\nLast Activity: ${formatDate(client.lastActivity)}\nNotes: ${client.notes || 'None'}`);
+            }
+        }
+        
+        function editClient(clientId) {
+            if (!currentUser || !currentUser.permissions.editClients) {
+                showToast('You do not have permission to edit clients', 'error');
+                return;
+            }
+            
+            const client = state.clients.find(c => c.id === clientId);
+            if (client) {
+                // In a real app, this would open the edit modal with pre-filled data
+                const newTaxStatus = prompt('Update tax clearance status (Clear/Pending/Overdue/Not Required):', client.taxClearance);
+                if (newTaxStatus && ['Clear', 'Pending', 'Overdue', 'Not Required'].includes(newTaxStatus)) {
+                    const oldStatus = client.taxClearance;
+                    client.taxClearance = newTaxStatus;
+                    
+                    if (newTaxStatus === 'Overdue' && oldStatus !== 'Overdue') {
+                        addNotification(
+                            'Tax Clearance Status Changed',
+                            `${client.name} tax clearance status changed to Overdue`,
+                            'tax',
+                            client.id
+                        );
+                    }
+                    
+                    updateAllClientsTable();
+                    updateTaxSection();
+                    showToast('Client tax status updated', 'success');
+                }
+            }
+        }
+        
+        function viewProject(projectId) {
+            const project = state.projects.find(p => p.id === projectId);
+            if (project) {
+                const client = state.clients.find(c => c.id === project.clientId);
+                alert(`Project Details:\n\nName: ${project.name}\nClient: ${client ? client.name : 'Unknown'}\nStart Date: ${formatDate(project.startDate)}\nDeadline: ${formatDate(project.deadline)}\nBudget: $${project.budget}\nStatus: ${project.status}\nProgress: ${project.progress}%\nServices: ${project.services.join(', ')}\nAssigned To: ${project.assignedTo}`);
+            }
+        }
+        
+        function viewInvoice(invoiceId) {
+            const invoice = state.invoices.find(i => i.id === invoiceId);
+            if (invoice) {
+                const client = state.clients.find(c => c.id === invoice.clientId);
+                alert(`Invoice Details:\n\nInvoice #: INV-2024-${String(invoice.id).padStart(3, '0')}\nClient: ${client ? client.name : 'Unknown'}\nAmount: $${invoice.amount}\nIssue Date: ${formatDate(invoice.issueDate)}\nDue Date: ${formatDate(invoice.dueDate)}\nStatus: ${invoice.status}\nServices: ${invoice.services.join(', ')}`);
+            }
+        }
+        
+        function viewTaxDeadline(taxId) {
+            const deadline = state.taxDeadlines.find(t => t.id === taxId);
+            if (deadline) {
+                const client = state.clients.find(c => c.id === deadline.clientId);
+                alert(`Tax Deadline:\n\nClient: ${client ? client.name : 'Unknown'}\nTax Type: ${deadline.taxType}\nFiling Period: ${deadline.filingPeriod}\nDeadline: ${formatDate(deadline.deadline)}\nStatus: ${deadline.status}\nDays Left: ${deadline.daysLeft > 0 ? deadline.daysLeft : 'Overdue'}`);
+            }
+        }
+        
+        function viewCalendarEvent(eventId) {
+            const event = state.calendarEvents.find(e => e.id === eventId);
+            if (event) {
+                const client = state.clients.find(c => c.id === event.clientId);
+                alert(`Calendar Event:\n\nTitle: ${event.title}\nDate: ${formatDate(event.date)}\nClient: ${client ? client.name : 'N/A'}\nType: ${event.type}\nDescription: ${event.description}`);
+            }
+        }
+        
+        // Helper functions
+        function formatDate(dateString, showTime = false) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            
+            if (showTime) {
+                const now = new Date();
+                const diffMs = now - date;
+                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                
+                if (diffDays === 0) {
+                    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                    if (diffHours === 0) {
+                        const diffMinutes = Math.floor(diffMs / (1000 * 60));
+                        return diffMinutes <= 1 ? 'Just now' : `${diffMinutes} minutes ago`;
+                    }
+                    return `${diffHours} hours ago`;
+                } else if (diffDays === 1) {
+                    return 'Yesterday';
+                } else if (diffDays < 7) {
+                    return `${diffDays} days ago`;
+                }
+            }
+            
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                year: 'numeric',
+                ...(showTime ? { hour: '2-digit', minute: '2-digit' } : {})
+            });
+        }
+        
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icon = type === 'success' ? 'check-circle' : 
+                        type === 'error' ? 'exclamation-circle' : 
+                        type === 'warning' ? 'exclamation-triangle' : 'info-circle';
+            
+            toast.innerHTML = `
+                <i class="fas fa-${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Remove toast after 5 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 5000);
+        }
+        
+        function addSampleProject() {
+            if (state.clients.length === 0) {
+                showToast('No clients available to add project', 'warning');
+                return;
+            }
+            
+            const client = state.clients[Math.floor(Math.random() * state.clients.length)];
+            const projectNames = [
+                "Business Strategy Development",
+                "Digital Transformation Roadmap",
+                "Tax Optimization Strategy",
+                "HR Policy Development",
+                "Financial Planning Analysis",
+                "Market Expansion Plan"
+            ];
+            
+            const projectName = projectNames[Math.floor(Math.random() * projectNames.length)];
+            const startDate = new Date();
+            const deadline = new Date(startDate);
+            deadline.setDate(startDate.getDate() + Math.floor(Math.random() * 60) + 30);
+            const budget = Math.floor(Math.random() * 20000) + 5000;
+            const status = state.pipelineStages[Math.floor(Math.random() * state.pipelineStages.length)].title;
+            const progress = status === 'Completed' ? 100 : Math.floor(Math.random() * 80) + 10;
+            
+            const newProject = {
+                id: state.nextProjectId++,
+                name: projectName,
+                clientId: client.id,
+                startDate: startDate.toISOString().split('T')[0],
+                deadline: deadline.toISOString().split('T')[0],
+                budget: budget,
+                status: status,
+                services: [client.services[0] || 'Business Strategy'],
+                assignedTo: state.users[Math.floor(Math.random() * state.users.length)],
+                progress: progress
+            };
+            
+            state.projects.push(newProject);
+            updateProjects();
+            updatePipeline();
+            
+            showToast(`Project "${projectName}" added for ${client.name}`, 'success');
+            addActivity('Project added', 'project', `${projectName} for ${client.name}`);
+        }
+        
+        function initializeDragAndDrop() {
+            const clientItems = document.querySelectorAll('.client-item');
+            const pipelineStages = document.querySelectorAll('.pipeline-stage');
+            
+            clientItems.forEach(item => {
+                item.addEventListener('dragstart', dragStart);
+                item.addEventListener('dragend', dragEnd);
+            });
+            
+            pipelineStages.forEach(stage => {
+                stage.addEventListener('dragover', dragOver);
+                stage.addEventListener('dragenter', dragEnter);
+                stage.addEventListener('dragleave', dragLeave);
+                stage.addEventListener('drop', drop);
+            });
+        }
+        
+        // Drag and drop functions
+        let draggedItem = null;
+        
+        function dragStart() {
+            if (!currentUser || !currentUser.permissions.viewProjects) {
+                event.preventDefault();
+                return;
+            }
+            
+            draggedItem = this;
+            this.classList.add('dragging');
+            
+            const projectId = this.getAttribute('data-project-id');
+            event.dataTransfer.setData('text/plain', projectId);
+        }
+        
+        function dragEnd() {
+            this.classList.remove('dragging');
+            draggedItem = null;
+            
+            document.querySelectorAll('.pipeline-stage').forEach(stage => {
+                stage.classList.remove('drag-over');
+            });
+        }
+        
+        function dragOver(e) {
+            e.preventDefault();
+        }
+        
+        function dragEnter(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        }
+        
+        function dragLeave() {
+            this.classList.remove('drag-over');
+        }
+        
+        function drop() {
+            this.classList.remove('drag-over');
+            
+            if (!currentUser || !currentUser.permissions.viewProjects) {
+                showToast('You do not have permission to update project status', 'error');
+                return;
+            }
+            
+            if (draggedItem) {
+                const stageTitle = this.querySelector('.stage-title').textContent;
+                const projectId = parseInt(draggedItem.getAttribute('data-project-id'));
+                
+                const projectIndex = state.projects.findIndex(p => p.id === projectId);
+                if (projectIndex !== -1) {
+                    const oldStatus = state.projects[projectIndex].status;
+                    state.projects[projectIndex].status = stageTitle;
+                    
+                    // Update progress based on stage
+                    const stageIndex = state.pipelineStages.findIndex(s => s.title === stageTitle);
+                    const totalStages = state.pipelineStages.length;
+                    const newProgress = Math.round(((stageIndex + 1) / totalStages) * 100);
+                    state.projects[projectIndex].progress = newProgress;
+                    
+                    updatePipeline();
+                    updateProjects();
+                    
+                    addActivity(
+                        'Project status updated',
+                        'project',
+                        `${state.projects[projectIndex].name} moved from ${oldStatus} to ${stageTitle}`
+                    );
+                    
+                    showToast(`Project moved to ${stageTitle} stage`, 'success');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
